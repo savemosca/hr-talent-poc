@@ -2,6 +2,8 @@
 
 A local web dashboard for exploring production employees' skills and development. Open `index.html` in a current browser. No installation, account, server or network connection is required. The built-in dataset contains 50 fictional profiles across five departments; names and details are illustrative.
 
+The theme button switches between light and dark appearance. The selected theme is saved in browser storage; when no preference has been saved, the application uses the device setting. No employee data is stored there.
+
 The language selector switches the interface and built-in sample profiles between Italian and English. Imported text remains in its original language and is not automatically translated. Names or text entered by users are not sent anywhere.
 
 ## Getting started

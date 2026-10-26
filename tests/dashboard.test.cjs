@@ -5,10 +5,10 @@ const vm = require('node:vm');
 const elements = {};
 const labels = [{nodeValue:'SOFT SKILL PIÙ ALTE'}, {nodeValue:'SOFT SKILL →'}];
 const document = {
-  body: {}, documentElement: {},
+  body: {}, documentElement: {dataset:{}},
   createTreeWalker() { let index = -1; return {nextNode() { return ++index < labels.length; }, get currentNode() { return labels[index]; }}; },
   querySelectorAll() { return []; },
-  getElementById(id) { return elements[id] ??= {innerHTML:'', textContent:'', value:'', hidden:false, disabled:false, querySelectorAll() {return [];}, focus() {}, click() {}}; },
+  getElementById(id) { return elements[id] ??= {innerHTML:'', textContent:'', value:'', hidden:false, disabled:false, setAttribute(name,value) { this[name]=value; }, querySelectorAll() {return [];}, focus() {}, click() {}}; },
   createElement() {return {click() {}};}
 };
 const context = {document, NodeFilter:{SHOW_TEXT:4}, Blob, URL, setTimeout};
@@ -24,6 +24,11 @@ vm.runInContext(`
   if(!rejected) throw Error('Invalid score was accepted');
 `,context);
 assert.equal(elements.name.textContent,'Marco Bianchi');
+assert.equal(elements.theme['aria-pressed'],'false');
+elements.theme.onclick();
+assert.equal(elements.theme['aria-pressed'],'true');
+assert.equal(document.documentElement.dataset.theme,'dark');
+elements.theme.onclick();
 elements.search.oninput({target:{value:'amina'}});
 assert.equal(elements.name.textContent,'Amina Benali');
 assert.equal(elements['result-count'].textContent,'1 di 50 persone');
