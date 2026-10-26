@@ -51,5 +51,6 @@ assert.equal(labels[0].nodeValue,'HIGHEST SOFT SKILLS');
 assert.equal(labels[1].nodeValue,'SOFT SKILLS →');
 assert.equal(elements.role.textContent,'Assembly operator');
 assert.ok(!elements.radar.innerHTML.includes('NaN'));
+assert.ok(elements.radar.innerHTML.includes('dominant-baseline="middle"'));
 assert.ok(elements['hard-list'].innerHTML.includes('Weight'));
 console.log('PASS: import validation, scoring, search, empty state, language and skill detail');
