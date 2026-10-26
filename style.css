@@ -38,3 +38,4 @@
 .axis span:last-child{text-align:right}
 .score-card strong,.hard-row strong{font-variant-numeric:tabular-nums}
 @media(max-width:680px){.topbar-actions{width:100%;justify-content:flex-start;flex-wrap:wrap}.topbar-actions select{width:auto}.profile-stats span{min-height:0}.radar svg{max-width:245px}}
+.brand-context{white-space:nowrap}

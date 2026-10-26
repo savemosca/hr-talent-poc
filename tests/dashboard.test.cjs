@@ -11,7 +11,7 @@ const document = {
   getElementById(id) { return elements[id] ??= {innerHTML:'', textContent:'', value:'', hidden:false, disabled:false, setAttribute(name,value) { this[name]=value; }, querySelectorAll() {return [];}, focus() {}, click() {}}; },
   createElement() {return {click() {}};}
 };
-const context = {document, NodeFilter:{SHOW_TEXT:4}, Blob, URL, setTimeout};
+const context = {document, navigator:{languages:['it-IT']}, NodeFilter:{SHOW_TEXT:4}, Blob, URL, setTimeout};
 vm.createContext(context);
 vm.runInContext(fs.readFileSync('app.js','utf8'),context);
 vm.runInContext(`
@@ -54,3 +54,23 @@ assert.ok(!elements.radar.innerHTML.includes('NaN'));
 assert.ok(elements.radar.innerHTML.includes('dominant-baseline="middle"'));
 assert.ok(elements['hard-list'].innerHTML.includes('Weight'));
 console.log('PASS: import validation, scoring, search, empty state, language and skill detail');
+
+function storage() {const values=new Map();return {getItem:k=>values.has(k)?values.get(k):null,setItem:(k,v)=>values.set(k,String(v)),removeItem:k=>values.delete(k)};}
+function boot(localStorage,sessionStorage,languages){
+ const nodes={};const document={body:{},documentElement:{dataset:{}},createTreeWalker(){return{nextNode(){return false}}},querySelectorAll(){return[]},getElementById(id){return nodes[id]??={innerHTML:'',textContent:'',value:'',hidden:false,disabled:false,setAttribute(){},querySelectorAll(){return[]},focus(){},click(){}}},createElement(){return{click(){}}}};
+ const context={document,navigator:{languages},localStorage,sessionStorage,NodeFilter:{SHOW_TEXT:4},Blob,URL,setTimeout};vm.createContext(context);vm.runInContext(fs.readFileSync('app.js','utf8'),context);return {nodes,context,document};
+}
+(async()=>{
+ const local=storage(),session=storage();
+ let page=boot(local,session,['it-IT']);assert.equal(page.document.documentElement.lang,'it');
+ page.nodes.language.onchange({target:{value:'en'}});
+ page.nodes.search.value='Amina';page.nodes.search.oninput({target:page.nodes.search});assert.equal(page.nodes.name.textContent,'Amina Benali');
+ page=boot(local,session,['it-IT']);assert.equal(page.document.documentElement.lang,'en');assert.equal(page.nodes.search.value,'Amina');assert.equal(page.nodes.name.textContent,'Amina Benali');
+ const csv=vm.runInContext('csvEncode(sampleRows())',page.context);
+ await page.nodes.file.onchange({target:{files:[{name:'demo.csv',text:async()=>csv}],value:'demo.csv'}});
+ page.nodes.search.value='Amina';page.nodes.search.oninput({target:page.nodes.search});
+ page=boot(local,session,['it-IT']);assert.equal(page.nodes.name.textContent,'Amina Benali');assert.ok(page.nodes.notice.textContent.includes('demo.csv'));assert.ok(page.nodes.notice.textContent.includes('session'));
+ const english=boot(storage(),storage(),['en-US']);assert.equal(english.document.documentElement.lang,'en');
+ const italian=boot(storage(),storage(),['it-IT']);assert.equal(italian.document.documentElement.lang,'it');
+ console.log('PASS: browser language, saved language, refresh state and imported data');
+})().catch(error=>{console.error(error);process.exitCode=1});
