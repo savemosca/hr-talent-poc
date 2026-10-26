@@ -7,7 +7,7 @@ The language selector switches the interface and built-in sample profiles betwee
 ## Getting started
 
 1. Open `index.html` and select a person from the menu or talent matrix.
-2. Open the [example workbook](outputs/base-dati/TalentFlow-base-dati.xlsx), or download the sample CSV from the dashboard. Edit the `Dati` sheet and save a copy as CSV UTF-8. Select **Import CSV** in the dashboard. The application does not read `.xlsx` directly.
+2. Open the [example workbook](outputs/sample-data/TalentFlow-sample-data.xlsx), or download the sample CSV from the dashboard. Edit the `Data` sheet and save a copy as CSV UTF-8. Select **Import CSV** in the dashboard. The application does not read `.xlsx` directly.
 3. Data is loaded into browser memory only; it is not saved automatically. Import the file again after refreshing the page. The original file is never modified.
 
 Each row represents one skill for one person. Repeat identical personal information for every row of the same ID. Each person must have at least one `soft` and one `hard` skill. IDs must be unique per person and skills must not be duplicated within a person's skill type. Skills and weights can differ by department.

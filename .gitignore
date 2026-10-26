@@ -2,7 +2,7 @@
 *.xlsx
 *.xls
 *.csv
-!talentflow-esempio.csv
+!talentflow-sample.csv
 
 # Only the fictional sample workbook is tracked; other Excel files remain excluded.
-!outputs/base-dati/TalentFlow-base-dati.xlsx
+!outputs/sample-data/TalentFlow-sample-data.xlsx
