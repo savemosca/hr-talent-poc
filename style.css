@@ -139,3 +139,6 @@
   #view-profile .radar svg{max-width:100%}
   #view-profile .skill-row{font-size:9px}
 }
+
+/* Separate the profile insight cards from the assessment and career cards above. */
+#skills-insights,#development-insights{margin-top:18px}
