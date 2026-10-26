@@ -6,9 +6,11 @@ The theme button switches between light and dark appearance. The selected theme 
 
 The initial interface language follows the browser language (Italian or English; English fallback). A manually selected language is saved in browser local storage. The selector also translates the built-in sample profiles. Imported text remains in its original language and is not automatically translated. Names or text entered by users are not sent anywhere.
 
+For the full product decisions, architecture, data model, calculations and production gaps, see [project documentation](docs/PROJECT.md).
+
 ## Getting started
 
-1. Open `index.html` and search by name or ID, filter by department, and select a person from the menu or talent matrix. The matrix shows the filtered people. Expand the hard-skills breakdown to inspect scores and weights.
+1. Open `index.html` and search by name or ID, filter by department, and select a person from the menu or talent matrix. Enable **Show insights** to view the target-role comparison, development actions, aspirations and assessment history. The choice is remembered on the device. The matrix shows the filtered people. Expand the hard-skills breakdown to inspect scores and weights.
 2. Open the [example workbook](outputs/sample-data/TalentFlow-sample-data.xlsx), or download the sample CSV from the dashboard. Edit the `Data` sheet and save a copy as CSV UTF-8. Select **Import CSV** in the dashboard. The application does not read `.xlsx` directly.
 3. Imported CSV content and the selected person, search and department are kept in the browser’s session storage for the current tab, so they survive a refresh. Closing the tab normally ends the session; browser session restore may retain it. The original file is never modified. If browser storage is unavailable or full, the app warns that imported data will be lost on refresh.
 
@@ -24,6 +26,15 @@ Each row represents one skill for one person. Repeat identical personal informat
 | `initial`, `current` | Scores between 1 and 5, including decimals. Only these two assessments are compared. |
 | `weight` | Positive number indicating the skill's relevance to the weighted average. |
 | `development_action` | Suggested development action for this skill. |
+| `target` | Optional target level from 1 to 5 for this skill and next role. |
+| `aspiration` | Optional expressed interest, repeated identically for each row of the same person. |
+| `initial_date`, `current_date` | Optional assessment dates in `YYYY-MM-DD` format. |
+| `availability` | Optional availability expressed by the employee, repeated identically for each row of the same person. |
+| `assessor`, `evidence` | Optional assessor and observation for the skill. |
+| `development_owner`, `development_due` | Optional action owner and review date (`YYYY-MM-DD`). |
+| `history` | Optional chronological entries `YYYY-MM-DD:score` separated by `|`, e.g. `2023-01-15:2.5|2024-07-15:3.0`. |
+
+All ten insights fields are optional; old CSV files continue to work. Missing values are shown as unavailable. The three-point histories, dates, evidence, targets, aspirations and action owners in the sample are fictional examples, not actual assessments. When target levels exist, the development plan prioritizes the largest gaps; otherwise it displays the lowest soft-skill scores and clearly states the basis. Targets are configured inputs, not validated predictions.
 
 CSV files separated by semicolons or commas are supported, as are decimal points and decimal commas. The original Italian column names from the earlier proof of concept are also accepted. Invalid imports show an error and leave the existing data unchanged.
 
@@ -40,6 +51,6 @@ Run `node tests/dashboard.test.cjs` to check import validation, scoring, filteri
 
 ## Privacy and limitations
 
-The application has no external libraries, cloud services, cookies or telemetry. Imported data is not transmitted to a server by the application. The imported CSV is stored in browser session storage, which is not encrypted by this application. Language and theme preferences are stored in local storage; view state is stored in session storage. File access, local storage, backups, device cloud synchronization, and lawful use remain subject to company policies. Never commit real employee data. This is a demonstration, not a production HR system: it has no authentication, encryption, access control, audit trail, shared editing or complete yearly history. Consult HR, IT and privacy teams before using actual employee data.
+The application has no external libraries, cloud services, cookies or telemetry. Imported data is not transmitted to a server by the application. The imported CSV is stored in browser session storage, which is not encrypted by this application. Language and theme preferences are stored in local storage; view state is stored in session storage. File access, local storage, backups, device cloud synchronization, and lawful use remain subject to company policies. Never commit real employee data. This is a demonstration, not a production HR system: it has no authentication, encryption, access control, audit trail or shared editing. Dated history is imported as supplied rather than collected through an assessment workflow. Consult HR, IT and privacy teams before using actual employee data.
 
 Possible next steps include yearly history, consistent department-level weight definitions, role filters, assessment evidence, access controls, secure storage and direct Excel import.

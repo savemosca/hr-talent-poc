@@ -27,12 +27,25 @@ vm.runInContext(`
     for(const person of group){const soft=average(person.skills.filter(s=>s.type==='soft'));const hard=average(person.skills.filter(s=>s.type==='hard'));quadrants.add((soft>=3.5?'high':'low')+'-'+(hard>=3.5?'high':'low'));}
   }
   if(quadrants.size!==4) throw Error('Sample must span all four quadrants');
+  const legacy=loadData([requiredHeaders,...sampleRows().map(row=>row.slice(0,requiredHeaders.length))]);
+  if(legacy.length!==50||legacy[0].skills[0].target!=='') throw Error('Legacy CSV should not invent target levels');
+  const badTarget=sampleRows();badTarget[0][18]=7;let targetRejected=false;try{loadData([headers,...badTarget])}catch{targetRejected=true}if(!targetRejected)throw Error('Invalid target accepted');
+  const badHistory=sampleRows();badHistory[0][22]='2024-01-01:3|2023-01-01:2';let historyRejected=false;try{loadData([headers,...badHistory])}catch{historyRejected=true}if(!historyRejected)throw Error('Unordered history accepted');
   if(Math.abs(average([{current:3,weight:1},{current:5,weight:3}])-4.5)>1e-10) throw Error('Incorrect weighted average');
   const invalid=sampleRows(); invalid[0][11]=6; let rejected=false;
   try { loadData([headers,...invalid]); } catch { rejected=true; }
   if(!rejected) throw Error('Invalid score was accepted');
 `,context);
 assert.equal(elements.name.textContent,'Marco Bianchi');
+assert.equal(elements['advanced-panel'].hidden,true);
+elements['advanced-toggle'].onchange({target:{checked:true}});
+assert.equal(elements['advanced-panel'].hidden,false);
+assert.ok(elements['gap-content'].innerHTML.includes('Divario'));
+assert.ok(elements['history-content'].innerHTML.includes('2024-07-15'));
+assert.ok(elements['aspiration-content'].innerHTML.includes('coordinamento'));
+assert.ok(elements['aspiration-content'].innerHTML.includes('Disponibilità'));
+elements['advanced-toggle'].onchange({target:{checked:false}});
+assert.equal(elements['advanced-panel'].hidden,true);
 assert.equal(elements.theme['aria-pressed'],'false');
 elements.theme.onclick();
 assert.equal(elements.theme['aria-pressed'],'true');
@@ -67,9 +80,9 @@ function boot(localStorage,sessionStorage,languages){
 (async()=>{
  const local=storage(),session=storage();
  let page=boot(local,session,['it-IT']);assert.equal(page.document.documentElement.lang,'it');
- page.nodes.language.onchange({target:{value:'en'}});
+ page.nodes.language.onchange({target:{value:'en'}});page.nodes['advanced-toggle'].onchange({target:{checked:true}});assert.ok(page.nodes['gap-content'].innerHTML.includes('Gap'));
  page.nodes.search.value='Amina';page.nodes.search.oninput({target:page.nodes.search});assert.equal(page.nodes.name.textContent,'Amina Benali');
- page=boot(local,session,['it-IT']);assert.equal(page.document.documentElement.lang,'en');assert.equal(page.nodes.search.value,'Amina');assert.equal(page.nodes.name.textContent,'Amina Benali');
+ page=boot(local,session,['it-IT']);assert.equal(page.document.documentElement.lang,'en');assert.equal(page.nodes['advanced-panel'].hidden,false);assert.equal(page.nodes.search.value,'Amina');assert.equal(page.nodes.name.textContent,'Amina Benali');
  const csv=vm.runInContext('csvEncode(sampleRows())',page.context);
  await page.nodes.file.onchange({target:{files:[{name:'demo.csv',text:async()=>csv}],value:'demo.csv'}});
  page.nodes.search.value='Amina';page.nodes.search.oninput({target:page.nodes.search});
