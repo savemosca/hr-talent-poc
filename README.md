@@ -38,6 +38,22 @@ All ten insights fields are optional; old CSV files continue to work. Missing va
 
 CSV files separated by semicolons or commas are supported, as are decimal points and decimal commas. The original Italian column names from the earlier proof of concept are also accepted. Invalid imports show an error and leave the existing data unchanged.
 
+## Converting an Excel workbook locally
+
+The optional converter creates a dashboard-ready CSV from the workbook's `Data` sheet using Python 3 and the standard library; no additional Python packages are needed. The dashboard itself does not require Python. Save the workbook in Excel before converting it.
+
+On Windows, drag the saved `.xlsx` workbook onto `Convert-Excel.bat`, or double-click that file and enter the workbook path. Python 3 must already be installed and available as `py -3` or `python`. The window reports the location of the resulting `.dashboard.csv`, which you then select with **Import CSV** in the dashboard. It is created next to the workbook; if a file with that name already exists, a numbered filename is chosen instead. The original workbook is never changed.
+
+On macOS, Windows or Linux, run:
+
+```sh
+python3 scripts/excel_to_csv.py "path/to/workbook.xlsx"
+```
+
+Use `--sheet "Sheet name"` for a sheet other than `Data`, or `--output "path/to/file.csv"` to select a destination. An explicit output file is never overwritten. The converter checks required fields, score ranges, personal-data consistency, duplicate skills, dates and history before writing. Excel date cells are converted to ISO dates. It reads saved formula results without recalculating them; open the workbook in Excel, recalculate and save it first. If a formula has no saved result, the converter reports an error. Encrypted files, legacy `.xls` files and macro-enabled `.xlsm` files are not supported. Conversion and validation are local and make no network calls.
+
+Run `python3 -m unittest discover -s tests -p 'test_excel_to_csv.py' -v` to test the converter. The Windows launcher requires a Windows machine for a native end-to-end test.
+
 ## Scoring
 
 - The radar compares initial and current soft-skill scores; numbers correspond to the adjacent list.

@@ -25,7 +25,7 @@ The visual identity uses a blue foundation with a restrained warm accent. Its wo
 2. Search by name or ID, filter by department and select a person. The matrix contains the people matching the active filters.
 3. Review the profile, strengths, soft-skill radar and list, career path, suggestions and matrix. Expand the hard-skill breakdown to inspect individual scores and weights.
 4. Enable **Show insights / Mostra approfondimenti** to reveal target-role gaps, development actions, stated aspirations and the history and evidence for a selected skill. The control is optional and its state is remembered locally.
-5. To work with a different dataset, edit `outputs/sample-data/TalentFlow-sample-data.xlsx`, save the `Data` sheet as CSV UTF-8 and import it. The application does not read `.xlsx` directly and never writes back to the source workbook.
+5. To work with a different dataset, edit `outputs/sample-data/TalentFlow-sample-data.xlsx`, save it and use `Convert-Excel.bat` on Windows or `python3 scripts/excel_to_csv.py workbook.xlsx` to generate a CSV, then import it. Alternatively export the `Data` sheet as CSV UTF-8 directly from Excel. The application does not read `.xlsx` directly and never writes back to the source workbook.
 
 The app supports Italian and English. On first use it chooses a supported language from the browser's preferences, defaulting to English if none match. An explicit selection is stored for later visits. The built-in sample is translated for display; imported text is displayed as supplied and is not automatically translated. The app follows the system light/dark preference until a theme is selected manually, then remembers that preference. Reduced-motion settings are respected.
 
@@ -35,11 +35,12 @@ The app supports Italian and English. On first use it chooses a supported langua
 - `style.css`: responsive layout, brand styling, light/dark themes and motion settings.
 - `app.js`: fictional sample generator, CSV parsing and validation, calculations, UI rendering, translation and browser storage.
 - `outputs/sample-data/TalentFlow-sample-data.xlsx`: fictional editable source workbook and Italian/English instructions.
-- `tests/dashboard.test.cjs`: Node-based tests of data parsing, calculations, filters, localization, storage and optional insights.
+- `scripts/excel_to_csv.py` and `Convert-Excel.bat`: optional local converter from a saved `.xlsx` workbook to a validated dashboard CSV; Python 3 is required for conversion, but not to run the web dashboard.
+- `tests/dashboard.test.cjs` and `tests/test_excel_to_csv.py`: tests of data parsing, calculations, conversion, filters, localization, storage and optional insights.
 - `docs/BRAND.md`: working brand direction.
 - `README.md`: concise setup, usage, schema and limitations.
 
-Run `node tests/dashboard.test.cjs` from the project directory. The app itself has no build step, backend, external JavaScript library, network dependency or telemetry. It is currently opened as a local file. Automated tests exercise application logic with a simulated DOM; they do not replace accessibility, responsive or multi-browser testing.
+Run `node tests/dashboard.test.cjs` from the project directory. The app itself has no build step, backend, external JavaScript library, network dependency or telemetry. The optional converter uses only Python's standard library, works offline, reads cached Excel formula results and does not edit the workbook. It is currently opened as a local file. Automated tests exercise application logic with a simulated DOM; they do not replace accessibility, responsive or multi-browser testing.
 
 ## Fictional reference dataset
 
