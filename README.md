@@ -1,37 +1,39 @@
-# TalentFlow · POC dashboard HR
+# TalentFlow · HR dashboard proof of concept
 
-Una dashboard web dimostrativa per esplorare la crescita delle competenze degli operatori di produzione. Funziona sul computer, senza installazione, account, server o connessione: aprire **index.html** con un browser aggiornato (Chrome, Edge, Firefox o Safari). I dati iniziali comprendono 15 profili interamente fittizi, con nomi italiani e internazionali, distribuiti tra produzione, confezionamento, manutenzione, qualità e logistica interna. Anche gli eventuali riferimenti a persone reali sono casuali.
+A local web dashboard for exploring production employees' skills and development. Open `index.html` in a current browser. No installation, account, server or network connection is required. The built-in dataset contains 50 fictional profiles across five departments; names and details are illustrative.
 
-## Uso
+The language selector switches the interface and built-in sample profiles between Italian and English. Imported text remains in its original language and is not automatically translated. Names or text entered by users are not sent anywhere.
 
-1. Aprire `index.html` con doppio clic. Selezionare una persona dal menu o dalla matrice.
-2. Aprire il modello [Excel dimostrativo](outputs/base-dati/TalentFlow-base-dati.xlsx), oppure usare **Scarica dati di esempio** per ottenere un CSV UTF-8 apribile in Excel. Modificarlo e salvarlo come **CSV UTF-8** mantenendo le intestazioni, poi scegliere **Importa CSV**. L'importazione avviene solo nel browser, in memoria: dopo l'aggiornamento della pagina occorre reimportare il file. Il file originale non viene modificato.
-3. I dati sono organizzati con **una riga per persona e competenza**: le informazioni personali vanno ripetute identiche in tutte le righe dello stesso ID. Ogni persona deve avere almeno una skill `soft` e una `hard`. Le skill possono differire per reparto e persona. Nel campione le competenze hanno nomi comuni, ma alcuni pesi variano per reparto. Scegliere ID univoci e non duplicare una skill dello stesso tipo per la stessa persona.
+## Getting started
 
-| Colonne | Contenuto |
+1. Open `index.html` and select a person from the menu or talent matrix.
+2. Open the [example workbook](outputs/base-dati/TalentFlow-base-dati.xlsx), or download the sample CSV from the dashboard. Edit the `Dati` sheet and save a copy as CSV UTF-8. Select **Import CSV** in the dashboard. The application does not read `.xlsx` directly.
+3. Data is loaded into browser memory only; it is not saved automatically. Import the file again after refreshing the page. The original file is never modified.
+
+Each row represents one skill for one person. Repeat identical personal information for every row of the same ID. Each person must have at least one `soft` and one `hard` skill. IDs must be unique per person and skills must not be duplicated within a person's skill type. Skills and weights can differ by department.
+
+| Columns | Meaning |
 |---|---|
-| `id`, `nome`, `ruolo`, `reparto`, `anzianita_anni` | Identificazione e profilo. |
-| `job_description` | Descrizione del ruolo. |
-| `percorso` | Ruoli separati da `|`, ad esempio `Operatore|Team leader|Capo linea`. |
-| `prossimo_ruolo` | Prossimo ruolo indicativo. |
-| `tipo`, `skill` | `soft` oppure `hard` e nome della competenza. |
-| `iniziale`, `attuale` | Valori tra 1 e 5, anche decimali. Il confronto mostra solo questi due momenti. |
-| `peso` | Numero positivo: rilevanza della skill nella media, eventualmente diversa per reparto. |
-| `azione_sviluppo` | Suggerimento testuale associato alla competenza. |
+| `id`, `name`, `role`, `department`, `tenure_years` | Person and role information. |
+| `job_description` | Description of current duties. |
+| `career_path` | Roles separated by `|`, e.g. `Operator|Team leader|Supervisor`. |
+| `next_role` | Indicative next role. |
+| `type`, `skill` | `soft` or `hard`, and the skill name. |
+| `initial`, `current` | Scores between 1 and 5, including decimals. Only these two assessments are compared. |
+| `weight` | Positive number indicating the skill's relevance to the weighted average. |
+| `development_action` | Suggested development action for this skill. |
 
-Sono accettati CSV con separatore `;` o `,`, e valori numerici con punto o virgola decimale. Se l'importazione non è valida viene mostrato un errore e i dati già caricati restano visibili. Il CSV di esempio può essere aperto e modificato in Excel, ma l'app non legge direttamente file `.xlsx`.
+CSV files separated by semicolons or commas are supported, as are decimal points and decimal commas. The original Italian column names from the earlier proof of concept are also accepted. Invalid imports show an error and leave the existing data unchanged.
 
-## Logica della POC
+## Scoring
 
-- Il radar confronta punteggio iniziale e attuale delle soft skill; i numeri corrispondono alla lista accanto.
-- I punti di forza sono le tre soft skill con punteggio attuale più alto; i consigli provengono dalla colonna `azione_sviluppo` delle tre soft skill con punteggio più basso. Sono suggerimenti configurati, non generati da un'IA.
-- Ogni asse della matrice è una media ponderata: `somma(punteggio attuale × peso) / somma(pesi)`. X rappresenta le soft skill, Y le hard skill. I pallini rappresentano tutte le persone importate. La soglia dimostrativa è **3,5 su entrambi gli assi**; il quadrante superiore destro indica profili da approfondire, non una promozione automatica. I pesi e la soglia devono essere validati dall'azienda.
-- La dicitura sul potenziale è soltanto un'indicazione basata sulla posizione nella matrice, non una valutazione psicologica o una previsione. Colloqui, contesto, aspirazioni individuali e giudizio umano rimangono essenziali.
+- The radar compares initial and current soft-skill scores; numbers correspond to the adjacent list.
+- Strengths are the three highest current soft skills. Suggestions are the `development_action` text for the three lowest soft skills; they are configured data, not AI-generated advice.
+- Each matrix axis uses `sum(current score × weight) / sum(weights)`: X is soft skills and Y is hard skills. Each dot represents a person. The illustrative threshold is **3.5 on both axes**; the top-right area identifies profiles for further discussion, not automatic promotion. HR and department managers must validate the weights and threshold.
+- The potential label is a simple matrix-based indicator, not a psychological assessment or prediction. Interviews, context, individual aspirations and human judgment remain essential.
 
-## Riservatezza e limiti
+## Privacy and limitations
 
-La pagina non usa librerie esterne, servizi cloud, cookie o telemetria. I file importati non sono inviati dalla POC a un server. Il CSV resta sul computer dell'utente: custodia, accessi, backup, eventuale sincronizzazione cloud del PC e base giuridica sono da gestire secondo le policy aziendali. Non inserire dati reali nel repository Git. Questa è una dimostrazione, non un sistema HR di produzione: non offre autenticazione, cifratura, controlli di accesso, audit, gestione condivisa o storico annuale completo. Prima dell'uso con dati reali occorrono una valutazione con HR/IT/privacy e l'adeguamento alle policy applicabili.
+The application has no external libraries, cloud services, cookies or telemetry. Imported data is not transmitted to a server by the application. File access, local storage, backups, device cloud synchronization, and lawful use remain subject to company policies. Never commit real employee data. This is a demonstration, not a production HR system: it has no authentication, encryption, access control, audit trail, shared editing or complete yearly history. Consult HR, IT and privacy teams before using actual employee data.
 
-## Evoluzioni possibili
-
-Storico per anno, pesi centralizzati e coerenti per reparto, filtri e confronti per ruolo, raccolta di evidenze e feedback, gestione autorizzazioni, conservazione sicura e importazione diretta Excel. La soglia e le competenze vanno definite e validate con i responsabili di produzione.
+Possible next steps include yearly history, consistent department-level weight definitions, role filters, assessment evidence, access controls, secure storage and direct Excel import.

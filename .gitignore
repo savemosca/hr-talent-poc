@@ -4,5 +4,5 @@
 *.csv
 !talentflow-esempio.csv
 
-# Solo il modello dimostrativo è versionato; gli altri file Excel restano esclusi.
+# Only the fictional sample workbook is tracked; other Excel files remain excluded.
 !outputs/base-dati/TalentFlow-base-dati.xlsx
