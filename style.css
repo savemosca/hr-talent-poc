@@ -88,3 +88,54 @@
 .team-toolbar{align-items:end}
 .team-toolbar .result-count{align-self:end;margin:0 0 7px}
 @media(max-width:680px){.team-toolbar .result-count{align-self:center;margin:0}.matrix-wrap{grid-template-columns:42px minmax(0,1fr)}}
+
+/* Keep the active employee data visible sooner on the individual profile. */
+#view-profile .view-heading{align-items:center;margin-bottom:10px}
+#view-profile .view-heading h1{font-size:26px;margin:3px 0 0;line-height:1.15}
+#view-profile .view-heading p,#view-profile .view-heading .eyebrow{display:none}
+#view-profile .profile-context{align-items:center;padding:10px 14px;margin-bottom:8px;min-height:62px}
+#view-profile .profile-context-text{gap:0}
+#view-profile .profile-context-text strong{font-size:15px;line-height:1.25}
+#view-profile .profile-context .subtle-label{font-size:8px}
+#view-profile .profile-select{width:min(260px,42%)}
+#view-profile .advanced-control{padding:8px 13px;margin-bottom:8px;min-height:50px}
+#view-profile .advanced-control>div{gap:0}
+#view-profile .advanced-control .advanced-hint{display:none}
+#view-profile .profile-tabs{margin:0 0 10px}
+#view-profile .profile-tabs button{padding-top:10px;padding-bottom:10px}
+#view-profile .profile-overview-grid{grid-template-columns:minmax(0,1.2fr) minmax(220px,.8fr);gap:12px}
+#view-profile .card{padding:18px}
+#view-profile .card-heading{margin-bottom:12px}
+#view-profile .identity{padding:0 0 14px}
+#view-profile .portrait{width:62px;height:62px;border-radius:17px;font-size:21px}
+#view-profile .identity h3{font-size:19px}
+#view-profile .profile-stats div{padding:10px}
+#view-profile .profile-stats span{min-height:0;font-size:8px;margin-bottom:4px}
+#view-profile .profile-stats strong{font-size:11px;line-height:1.35}
+#view-profile .strengths{margin-top:14px}
+#view-profile .chips{margin-top:8px}
+#view-profile .assessment .card-heading{margin-bottom:10px}
+#view-profile .assessment-content{grid-template-columns:minmax(170px,.9fr) minmax(170px,1.1fr);gap:12px}
+#view-profile .radar svg{max-width:250px}
+#view-profile .skill-row{padding:4px 0}
+#view-profile .career-columns{gap:14px}
+@media(max-width:680px){
+  #view-profile .view-heading{flex-direction:row;align-items:center}
+  #view-profile .view-heading h1{font-size:22px}
+  #view-profile .view-heading .button{min-height:36px;padding:7px 10px;font-size:10px}
+  #view-profile .profile-context{flex-direction:row;align-items:center;padding:9px 11px}
+  #view-profile .profile-context-text{min-width:0}
+  #view-profile .profile-context-text strong{font-size:13px}
+  #view-profile .profile-context-text>span:last-child{font-size:10px}
+  #view-profile .profile-select{width:45%;min-width:135px}
+  #view-profile .profile-select label{font-size:8px}
+  #view-profile .advanced-control{flex-direction:row;align-items:center;gap:8px;padding:8px 10px}
+  #view-profile .advanced-control strong{font-size:11px}
+  #view-profile .advanced-control>div>span:not(.advanced-hint){font-size:10px}
+  #view-profile .switch{font-size:10px}
+  #view-profile .profile-overview-grid{grid-template-columns:1fr}
+  #view-profile .overview-card{padding:14px}
+  #view-profile .assessment-content{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+  #view-profile .radar svg{max-width:100%}
+  #view-profile .skill-row{font-size:9px}
+}
