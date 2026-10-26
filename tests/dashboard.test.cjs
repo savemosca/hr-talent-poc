@@ -39,17 +39,9 @@ vm.runInContext(`
 assert.equal(elements.name.textContent,'Marco Bianchi');
 assert.ok(elements.radar.innerHTML.includes('radar-series--initial radar-series--animate'));
 assert.ok(elements.radar.innerHTML.includes('radar-series--current radar-series--animate'));
-assert.equal(elements['advanced-panel'].hidden,true);
-elements['advanced-toggle'].onchange({target:{checked:true}});
-assert.equal(elements['advanced-panel'].hidden,true);
 elements['nav-profile'].onclick();elements['tab-skills'].onclick();
-assert.equal(elements['advanced-panel'].hidden,false);
-assert.ok(elements['gap-content'].innerHTML.includes('Divario'));
-assert.ok(elements['history-content'].innerHTML.includes('2024-07-15'));
-assert.ok(elements['aspiration-content'].innerHTML.includes('coordinamento'));
-assert.ok(elements['aspiration-content'].innerHTML.includes('Disponibilità'));
-elements['advanced-toggle'].onchange({target:{checked:false}});
-assert.equal(elements['advanced-panel'].hidden,true);
+assert.equal(elements['panel-skills'].hidden,false);
+assert.equal(elements['panel-development'].hidden,true);
 assert.equal(elements.theme['aria-pressed'],'false');
 elements.theme.onclick();
 assert.equal(elements.theme['aria-pressed'],'true');
@@ -110,7 +102,7 @@ function boot(localStorage,sessionStorage,languages){
 (async()=>{
  const local=storage(),session=storage();
  let page=boot(local,session,['it-IT']);assert.equal(page.document.documentElement.lang,'it');
- page.nodes.language.onchange({target:{value:'en'}});page.nodes['advanced-toggle'].onchange({target:{checked:true}});page.nodes['nav-profile'].onclick();page.nodes['tab-skills'].onclick();assert.ok(page.nodes['gap-content'].innerHTML.includes('Gap'));
+ page.nodes.language.onchange({target:{value:'en'}});page.nodes['nav-profile'].onclick();page.nodes['tab-skills'].onclick();assert.equal(page.nodes['panel-skills'].hidden,false);
  page.nodes.search.value='Amina';page.nodes.search.oninput({target:page.nodes.search});page.nodes['people-list'].onclick({target:{closest:()=>({dataset:{person:'P006'}})}});assert.equal(page.nodes.name.textContent,'Amina Benali');
  page=boot(local,session,['it-IT']);assert.equal(page.document.documentElement.lang,'en');assert.equal(page.nodes['view-profile'].hidden,false);assert.equal(page.nodes.search.value,'Amina');assert.equal(page.nodes.name.textContent,'Amina Benali');
  const csv=vm.runInContext('csvEncode(sampleRows())',page.context);
