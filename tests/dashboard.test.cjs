@@ -1,0 +1,41 @@
+'use strict';
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const vm = require('node:vm');
+const elements = {};
+const labels = [{nodeValue:'SOFT SKILL PIÙ ALTE'}, {nodeValue:'SOFT SKILL →'}];
+const document = {
+  body: {}, documentElement: {},
+  createTreeWalker() { let index = -1; return {nextNode() { return ++index < labels.length; }, get currentNode() { return labels[index]; }}; },
+  querySelectorAll() { return []; },
+  getElementById(id) { return elements[id] ??= {innerHTML:'', textContent:'', value:'', hidden:false, disabled:false, querySelectorAll() {return [];}, focus() {}, click() {}}; },
+  createElement() {return {click() {}};}
+};
+const context = {document, NodeFilter:{SHOW_TEXT:4}, Blob, URL, setTimeout};
+vm.createContext(context);
+vm.runInContext(fs.readFileSync('app.js','utf8'),context);
+vm.runInContext(`
+  const parsed=loadData(parseCSV(csvEncode(sampleRows())));
+  if(parsed.length!==50 || new Set(parsed.map(p=>p.id)).size!==50) throw Error('Expected 50 unique profiles');
+  if(new Set(parsed.map(p=>p.department)).size!==5) throw Error('Expected five departments');
+  if(Math.abs(average([{current:3,weight:1},{current:5,weight:3}])-4.5)>1e-10) throw Error('Incorrect weighted average');
+  const invalid=sampleRows(); invalid[0][11]=6; let rejected=false;
+  try { loadData([headers,...invalid]); } catch { rejected=true; }
+  if(!rejected) throw Error('Invalid score was accepted');
+`,context);
+assert.equal(elements.name.textContent,'Marco Bianchi');
+elements.search.oninput({target:{value:'amina'}});
+assert.equal(elements.name.textContent,'Amina Benali');
+assert.equal(elements['result-count'].textContent,'1 di 50 persone');
+elements.search.oninput({target:{value:'not-a-person'}});
+assert.equal(elements.empty.hidden,false);
+assert.equal(elements['dashboard-grid'].hidden,true);
+elements['clear-filters'].onclick();
+assert.equal(elements.empty.hidden,true);
+elements.language.onchange({target:{value:'en'}});
+assert.equal(labels[0].nodeValue,'HIGHEST SOFT SKILLS');
+assert.equal(labels[1].nodeValue,'SOFT SKILLS →');
+assert.equal(elements.role.textContent,'Senior operator');
+assert.ok(!elements.radar.innerHTML.includes('NaN'));
+assert.ok(elements['hard-list'].innerHTML.includes('Weight'));
+console.log('PASS: import validation, scoring, search, empty state, language and skill detail');

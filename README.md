@@ -6,7 +6,7 @@ The language selector switches the interface and built-in sample profiles betwee
 
 ## Getting started
 
-1. Open `index.html` and select a person from the menu or talent matrix.
+1. Open `index.html` and search by name or ID, filter by department, and select a person from the menu or talent matrix. The matrix shows the filtered people. Expand the hard-skills breakdown to inspect scores and weights.
 2. Open the [example workbook](outputs/sample-data/TalentFlow-sample-data.xlsx), or download the sample CSV from the dashboard. Edit the `Data` sheet and save a copy as CSV UTF-8. Select **Import CSV** in the dashboard. The application does not read `.xlsx` directly.
 3. Data is loaded into browser memory only; it is not saved automatically. Import the file again after refreshing the page. The original file is never modified.
 
@@ -31,6 +31,10 @@ CSV files separated by semicolons or commas are supported, as are decimal points
 - Strengths are the three highest current soft skills. Suggestions are the `development_action` text for the three lowest soft skills; they are configured data, not AI-generated advice.
 - Each matrix axis uses `sum(current score × weight) / sum(weights)`: X is soft skills and Y is hard skills. Each dot represents a person. The illustrative threshold is **3.5 on both axes**; the top-right area identifies profiles for further discussion, not automatic promotion. HR and department managers must validate the weights and threshold.
 - The potential label is a simple matrix-based indicator, not a psychological assessment or prediction. Interviews, context, individual aspirations and human judgment remain essential.
+
+## Tests
+
+Run `node tests/dashboard.test.cjs` to check import validation, scoring, filtering, empty states and language switching.
 
 ## Privacy and limitations
 
