@@ -40,3 +40,6 @@
 @media(max-width:680px){.topbar-actions{width:100%;justify-content:flex-start;flex-wrap:wrap}.topbar-actions select{width:auto}.profile-stats span{min-height:0}.radar svg{max-width:245px}}
 .brand-context{white-space:nowrap}
 .language-flag{display:inline-flex;width:26px;height:26px;flex:none;border-radius:50%;overflow:hidden;border:1px solid #c7cfdb;box-shadow:0 0 0 2px var(--card)}.language-flag svg{display:block;width:100%;height:100%}[data-theme="dark"] .language-flag{border-color:#66738b}
+/* Keep the native menu compact and show only the selected SVG flag. */
+.language-flag svg[hidden]{display:none!important}
+.topbar-actions #language{appearance:none;-webkit-appearance:none;display:block;width:98px;min-width:98px;padding:8px 27px 8px 10px;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:calc(100% - 16px) 17px,calc(100% - 12px) 17px;background-size:4px 4px;background-repeat:no-repeat;cursor:pointer}

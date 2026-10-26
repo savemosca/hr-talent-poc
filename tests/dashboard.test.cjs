@@ -8,7 +8,7 @@ const document = {
   body: {}, documentElement: {dataset:{}},
   createTreeWalker() { let index = -1; return {nextNode() { return ++index < labels.length; }, get currentNode() { return labels[index]; }}; },
   querySelectorAll() { return []; },
-  getElementById(id) { return elements[id] ??= {innerHTML:'', textContent:'', value:'', hidden:false, disabled:false, setAttribute(name,value) { this[name]=value; }, querySelectorAll() {return [];}, focus() {}, click() {}}; },
+  getElementById(id) { return elements[id] ??= {innerHTML:'', textContent:'', value:'', hidden:false, disabled:false, setAttribute(name,value) { this[name]=value; }, toggleAttribute(name,enabled) { this[name]=enabled; }, querySelectorAll() {return [];}, focus() {}, click() {}}; },
   createElement() {return {click() {}};}
 };
 const context = {document, navigator:{languages:['it-IT']}, NodeFilter:{SHOW_TEXT:4}, Blob, URL, setTimeout};
@@ -61,7 +61,7 @@ console.log('PASS: import validation, scoring, search, empty state, language and
 
 function storage() {const values=new Map();return {getItem:k=>values.has(k)?values.get(k):null,setItem:(k,v)=>values.set(k,String(v)),removeItem:k=>values.delete(k)};}
 function boot(localStorage,sessionStorage,languages){
- const nodes={};const document={body:{},documentElement:{dataset:{}},createTreeWalker(){return{nextNode(){return false}}},querySelectorAll(){return[]},getElementById(id){return nodes[id]??={innerHTML:'',textContent:'',value:'',hidden:false,disabled:false,setAttribute(){},querySelectorAll(){return[]},focus(){},click(){}}},createElement(){return{click(){}}}};
+ const nodes={};const document={body:{},documentElement:{dataset:{}},createTreeWalker(){return{nextNode(){return false}}},querySelectorAll(){return[]},getElementById(id){return nodes[id]??={innerHTML:'',textContent:'',value:'',hidden:false,disabled:false,setAttribute(){},toggleAttribute(name,enabled){this[name]=enabled},querySelectorAll(){return[]},focus(){},click(){}}},createElement(){return{click(){}}}};
  const context={document,navigator:{languages},localStorage,sessionStorage,NodeFilter:{SHOW_TEXT:4},Blob,URL,setTimeout};vm.createContext(context);vm.runInContext(fs.readFileSync('app.js','utf8'),context);return {nodes,context,document};
 }
 (async()=>{
