@@ -12,9 +12,10 @@ For the full product decisions, architecture, data model, calculations and produ
 
 ## Getting started
 
-1. Open `index.html` and search by name or ID, filter by department, and select a person from the menu or talent matrix. Enable **Show insights** to view the target-role comparison, development actions, aspirations and assessment history. The choice is remembered on the device. The matrix shows the filtered people. Expand the hard-skills breakdown to inspect scores and weights.
-2. Open the [example workbook](outputs/sample-data/TalentFlow-sample-data.xlsx), or download the sample CSV from the dashboard. Edit the `Data` sheet and save a copy as CSV UTF-8. Select **Import CSV** in the dashboard. The application does not read `.xlsx` directly.
-3. Imported CSV content and the selected person, search and department are kept in the browser’s session storage for the current tab, so they survive a refresh. Closing the tab normally ends the session; browser session restore may retain it. The original file is never modified. If browser storage is unavailable or full, the app warns that imported data will be lost on refresh.
+1. Open `index.html`. In **People**, search by name or ID, filter by department and open a person. In the individual profile, switch between **Overview**, **Skills** and **Development**. Enable **Show insights** to reveal target-role comparison and history under Skills, and the development plan and aspirations under Development. The choice is remembered on the device.
+2. Use **Department view** to filter by department or role, select a person from the matrix or adjacent list, and open the selected profile. The matrix reflects both filters. Expand the hard-skill breakdown to inspect scores and weights.
+3. Under **Data**, open the [example workbook](outputs/sample-data/TalentFlow-sample-data.xlsx), or download the sample CSV. Edit the `Data` sheet and save a copy as CSV UTF-8. Select **Import CSV**. The application does not read `.xlsx` directly.
+4. Imported CSV content, the selected person, navigation, search and department filters are kept in the browser’s session storage for the current tab, so they survive a refresh. Closing the tab normally ends the session; browser session restore may retain it. The original file is never modified. If browser storage is unavailable or full, the app warns that imported data will be lost on refresh.
 
 Each row represents one skill for one person. Repeat identical personal information for every row of the same ID. Each person must have at least one `soft` and one `hard` skill. IDs must be unique per person and skills must not be duplicated within a person's skill type. Skills and weights can differ by department. In the sample, each department corresponds to a role: its ten people share the same skill names and weights so that comparisons within the role are meaningful. Sample scores span all four matrix quadrants; their distribution is deliberately illustrative, not empirical.
 
@@ -60,7 +61,7 @@ Run `python3 -m unittest discover -s tests -p 'test_excel_to_csv.py' -v` to test
 
 - The radar compares initial and current soft-skill scores; numbers correspond to the adjacent list.
 - Strengths are the three highest current soft skills. Suggestions are the `development_action` text for the three lowest soft skills; they are configured data, not AI-generated advice.
-- Each matrix axis uses `sum(current score × weight) / sum(weights)`: X is soft skills and Y is hard skills. Each dot represents a person. The illustrative threshold is **3.5 on both axes**; the top-right area identifies profiles for further discussion, not automatic promotion. HR and department managers must validate the weights and threshold.
+- Each matrix axis uses `sum(current score × weight) / sum(weights)`: X is soft skills and Y is hard skills. Each dot represents a person. The illustrative threshold is **3.5 on both axes**; the top-right area is labeled as an area to explore, not as a prediction of leadership readiness or automatic promotion. HR and department managers must validate the weights and threshold.
 - The potential label is a simple matrix-based indicator, not a psychological assessment or prediction. Interviews, context, individual aspirations and human judgment remain essential.
 
 ## Tests

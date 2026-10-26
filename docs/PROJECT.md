@@ -22,10 +22,13 @@ The visual identity uses a blue foundation with a restrained warm accent. Its wo
 ## User workflow
 
 1. Open `index.html` locally in a supported browser; no install or server is required.
-2. Search by name or ID, filter by department and select a person. The matrix contains the people matching the active filters.
-3. Review the profile, strengths, soft-skill radar and list, career path, suggestions and matrix. Expand the hard-skill breakdown to inspect individual scores and weights.
-4. Enable **Show insights / Mostra approfondimenti** to reveal target-role gaps, development actions, stated aspirations and the history and evidence for a selected skill. The control is optional and its state is remembered locally.
-5. To work with a different dataset, edit `outputs/sample-data/TalentFlow-sample-data.xlsx`, save it and use `Convert-Excel.bat` on Windows or `python3 scripts/excel_to_csv.py workbook.xlsx` to generate a CSV, then import it. Alternatively export the `Data` sheet as CSV UTF-8 directly from Excel. The application does not read `.xlsx` directly and never writes back to the source workbook.
+2. In **People**, search by name or ID and filter by department. Open a person from the list. Search filters the list without silently changing the selected person.
+3. In **Individual profile**, use **Overview**, **Skills** and **Development** to explore the selected person. The selected person remains visible in the profile header. A different person can be selected there without returning to the directory.
+4. Enable **Show insights / Mostra approfondimenti** to show the target-role gap and dated assessment evidence in Skills, and the development plan and aspirations in Development. The control is optional and its state is remembered locally.
+5. In **Department view**, filter by department or role and select a person through either the matrix or the adjacent list. The selected person's scores are shown beside the matrix; open the profile for details. The department view has its own department and role filters. When different departments use different skill definitions or weights, their averages are not directly comparable.
+6. In **Data**, open `outputs/sample-data/TalentFlow-sample-data.xlsx`, save it and use `Convert-Excel.bat` on Windows or `python3 scripts/excel_to_csv.py workbook.xlsx` to generate a CSV, then import it. Alternatively export the `Data` sheet as CSV UTF-8 directly from Excel. The app never writes back to the workbook.
+
+The interface is still a single locally opened application; the four sections are focused views, not separate online services. Main navigation uses buttons, and the profile sections use accessible tabs with arrow-key navigation. The selected view, profile section and filters are restored during the tab session.
 
 The app supports Italian and English. On first use it chooses a supported language from the browser's preferences, defaulting to English if none match. An explicit selection is stored for later visits. The built-in sample is translated for display; imported text is displayed as supplied and is not automatically translated. The app follows the system light/dark preference until a theme is selected manually, then remembers that preference. Reduced-motion settings are respected.
 
@@ -95,7 +98,7 @@ For each person, separately for soft and hard skills:
 
 `weighted average = sum(current score × weight) / sum(weight)`
 
-The horizontal axis is soft-skill average; the vertical axis is hard-skill average. Both range from 1 to 5. A dot shows one person and filters control which people appear. The example threshold of 3.5 on each axis divides the matrix into four regions. The top-right is currently highlighted for further discussion of a team-leader path. The sample threshold and weights are placeholders; a high score in the current role does not prove interest in, readiness for or future success in a leadership role.
+The horizontal axis is soft-skill average; the vertical axis is hard-skill average. Both range from 1 to 5. A dot shows one person and filters control which people appear. The example threshold of 3.5 on each axis divides the matrix into four regions. The top-right is highlighted as an area to explore. The sample threshold and weights are placeholders; a high score in the current role does not prove interest in, readiness for or future success in a leadership role.
 
 The main-view matrix indicator is derived only from whether both averages reach 3.5. Its two-decimal display is rounded, but the comparison uses unrounded values. In particular, it is not a separate measurement of potential or a promotion decision. Specific requirements such as safety must be considered on their own merits rather than assumed to be satisfied by an average.
 
@@ -112,7 +115,7 @@ The demo uses illustrative 2023, 2024 and 2026 records. The current model stores
 
 ## Local persistence and privacy
 
-Language, theme and visibility of HR insights are stored as browser preferences in `localStorage`. The imported CSV and view state (selected person, search and department) are stored in the current tab's `sessionStorage`, so refresh can restore them. Browser behavior such as session restoration or copied tabs may retain or duplicate session data. If session storage is unavailable or full, the app warns that imported data will not survive refresh. The app does not encrypt browser storage or provide a per-user login. It does not send the data to a server, but device access, browser profiles, backups and synchronization remain outside its control.
+Language, theme and visibility of HR insights are stored as browser preferences in `localStorage`. The imported CSV and view state (selected person, current view, profile section, search and department filters) are stored in the current tab's `sessionStorage`, so refresh can restore them. Browser behavior such as session restoration or copied tabs may retain or duplicate session data. If session storage is unavailable or full, the app warns that imported data will not survive refresh. The app does not encrypt browser storage or provide a per-user login. It does not send the data to a server, but device access, browser profiles, backups and synchronization remain outside its control.
 
 Do not commit real employee data. `.gitignore` excludes ordinary Excel and CSV files while explicitly allowing the fictional example workbook. The sample workbook is the only tracked Excel file intended by the project. Use of real HR data requires HR, IT and privacy review and an appropriate approved operating model.
 
