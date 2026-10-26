@@ -3,3 +3,6 @@
 *.xls
 *.csv
 !talentflow-esempio.csv
+
+# Solo il modello dimostrativo è versionato; gli altri file Excel restano esclusi.
+!outputs/base-dati/TalentFlow-base-dati.xlsx

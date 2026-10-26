@@ -5,7 +5,7 @@ Una dashboard web dimostrativa per esplorare la crescita delle competenze degli 
 ## Uso
 
 1. Aprire `index.html` con doppio clic. Selezionare una persona dal menu o dalla matrice.
-2. Usare **Scarica dati di esempio** per ottenere un CSV UTF-8 apribile in Excel. Modificarlo e salvarlo come **CSV UTF-8** mantenendo le intestazioni, poi scegliere **Importa CSV**. L'importazione avviene solo nel browser, in memoria: dopo l'aggiornamento della pagina occorre reimportare il file. Il file originale non viene modificato.
+2. Aprire il modello [Excel dimostrativo](outputs/base-dati/TalentFlow-base-dati.xlsx), oppure usare **Scarica dati di esempio** per ottenere un CSV UTF-8 apribile in Excel. Modificarlo e salvarlo come **CSV UTF-8** mantenendo le intestazioni, poi scegliere **Importa CSV**. L'importazione avviene solo nel browser, in memoria: dopo l'aggiornamento della pagina occorre reimportare il file. Il file originale non viene modificato.
 3. I dati sono organizzati con **una riga per persona e competenza**: le informazioni personali vanno ripetute identiche in tutte le righe dello stesso ID. Ogni persona deve avere almeno una skill `soft` e una `hard`. Le skill possono differire per reparto e persona. Nel campione le competenze hanno nomi comuni, ma alcuni pesi variano per reparto. Scegliere ID univoci e non duplicare una skill dello stesso tipo per la stessa persona.
 
 | Colonne | Contenuto |
