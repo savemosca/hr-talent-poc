@@ -124,4 +124,4 @@ Do not commit real employee data. `.gitignore` excludes ordinary Excel and CSV f
 - Add structured review, calibration and challenge of evaluations; define what happens when data is incomplete or assessors disagree.
 - Test with representative users, keyboard and assistive technologies, multiple screen sizes and supported browsers. Add real browser tests and broader CSV/error/storage tests.
 - Decide whether direct Excel import, user editing, PDF reporting and integrations are actually needed. Preserve an offline option if company policy and project needs require it.
-- Resolve repository access and publishing: the repository currently exists locally; private GitHub publication has not been completed because GitHub CLI authentication was invalid in this session.
+- Maintain the private repository and review access before sharing. The repository contains fictional sample data only; real employee data must remain excluded.
