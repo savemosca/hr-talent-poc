@@ -1,6 +1,6 @@
 # TalentFlow · HR dashboard proof of concept
 
-A local web dashboard for exploring production employees' skills and development. Open `index.html` in a current browser. No installation, account, server or network connection is required. The built-in dataset contains 50 fictional profiles across five departments; names and details are illustrative.
+A local web dashboard for exploring production employees' skills and development. Open `index.html` in a current browser. No installation, account, server or network connection is required. The built-in dataset contains 50 fictional people in five illustrative production roles, with ten people per role: assembly, functional testing, welding, maintenance, and internal logistics. Scores, skill definitions, weighting and career paths are invented for demonstration; they do not represent actual Siemens employees or its assessment framework. The industrial setting is loosely informed by [Siemens’s Frankfurt switchgear factory](https://www.siemens.com/en-gb/company/jobs/growth-careers/job-offers-switchgear-plant-frankfurt/), which describes manufacturing, functional testing and welding. The internal logistics role is a generic illustrative role informed by [Siemens job listings](https://jobs.siemens.com/en_US/externaljobs/SearchJobs/?folderId=491342&folderOffset=120&folderRecordsPerPage=6).
 
 The theme button switches between light and dark appearance. The selected theme is saved in browser storage; when no preference has been saved, the application uses the device setting. No employee data is stored there.
 
@@ -12,7 +12,7 @@ The language selector switches the interface and built-in sample profiles betwee
 2. Open the [example workbook](outputs/sample-data/TalentFlow-sample-data.xlsx), or download the sample CSV from the dashboard. Edit the `Data` sheet and save a copy as CSV UTF-8. Select **Import CSV** in the dashboard. The application does not read `.xlsx` directly.
 3. Data is loaded into browser memory only; it is not saved automatically. Import the file again after refreshing the page. The original file is never modified.
 
-Each row represents one skill for one person. Repeat identical personal information for every row of the same ID. Each person must have at least one `soft` and one `hard` skill. IDs must be unique per person and skills must not be duplicated within a person's skill type. Skills and weights can differ by department.
+Each row represents one skill for one person. Repeat identical personal information for every row of the same ID. Each person must have at least one `soft` and one `hard` skill. IDs must be unique per person and skills must not be duplicated within a person's skill type. Skills and weights can differ by department. In the sample, each department corresponds to a role: its ten people share the same skill names and weights so that comparisons within the role are meaningful. Sample scores span all four matrix quadrants; their distribution is deliberately illustrative, not empirical.
 
 | Columns | Meaning |
 |---|---|

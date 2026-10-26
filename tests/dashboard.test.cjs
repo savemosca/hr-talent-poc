@@ -18,6 +18,15 @@ vm.runInContext(`
   const parsed=loadData(parseCSV(csvEncode(sampleRows())));
   if(parsed.length!==50 || new Set(parsed.map(p=>p.id)).size!==50) throw Error('Expected 50 unique profiles');
   if(new Set(parsed.map(p=>p.department)).size!==5) throw Error('Expected five departments');
+  const quadrants=new Set();
+  for(const department of new Set(parsed.map(p=>p.department))){
+    const group=parsed.filter(p=>p.department===department);
+    if(group.length!==10||new Set(group.map(p=>p.role)).size!==1) throw Error('Expected 10 people per role');
+    const definitions=group.map(p=>p.skills.filter(s=>s.type==='hard').map(s=>s.skill+':'+s.weight).join('|'));
+    if(new Set(definitions).size!==1) throw Error('Hard skills or weights differ within a role');
+    for(const person of group){const soft=average(person.skills.filter(s=>s.type==='soft'));const hard=average(person.skills.filter(s=>s.type==='hard'));quadrants.add((soft>=3.5?'high':'low')+'-'+(hard>=3.5?'high':'low'));}
+  }
+  if(quadrants.size!==4) throw Error('Sample must span all four quadrants');
   if(Math.abs(average([{current:3,weight:1},{current:5,weight:3}])-4.5)>1e-10) throw Error('Incorrect weighted average');
   const invalid=sampleRows(); invalid[0][11]=6; let rejected=false;
   try { loadData([headers,...invalid]); } catch { rejected=true; }
@@ -40,7 +49,7 @@ assert.equal(elements.empty.hidden,true);
 elements.language.onchange({target:{value:'en'}});
 assert.equal(labels[0].nodeValue,'HIGHEST SOFT SKILLS');
 assert.equal(labels[1].nodeValue,'SOFT SKILLS →');
-assert.equal(elements.role.textContent,'Senior operator');
+assert.equal(elements.role.textContent,'Assembly operator');
 assert.ok(!elements.radar.innerHTML.includes('NaN'));
 assert.ok(elements['hard-list'].innerHTML.includes('Weight'));
 console.log('PASS: import validation, scoring, search, empty state, language and skill detail');
