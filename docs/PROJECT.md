@@ -22,8 +22,8 @@ The visual identity uses a blue foundation with a restrained warm accent. Its wo
 ## User workflow
 
 1. Open `index.html` locally in a supported browser; no install or server is required.
-2. In **People**, search by name or ID, filter by department and sort by name, highest soft skills or highest hard skills. Each row shows the person's soft / hard weighted averages. Open a person from the list. Search filters the list without silently changing the selected person.
-3. In **Individual profile**, use **Overview**, **Skills** and **Development** to explore the selected person. The **Individual profile** navigation item is hidden until a person has been opened, then stays available. The selected person remains visible in the profile header and a different person can be selected there without returning to the directory. Overview shows identity, strengths and the soft / hard averages; target-role gaps and dated assessment evidence are in Skills, and the development plan and aspirations are in Development. There is no separate insights switch.
+2. In **People**, search by name or ID, filter by department. The list is ordered by name and cannot be sorted by score: a ranking would contradict the purpose of the tool as a discussion aid. Each row shows the person's soft / hard weighted averages, and "Outdated assessment" is added when the latest assessment date is more than 12 months old (`STALE_MONTHS` in `app.js`). Open a person from the list. Search filters the list without silently changing the selected person.
+3. In **Individual profile**, use **Overview**, **Skills** and **Development** to explore the selected person. The **Individual profile** navigation item is hidden until a person has been opened, then stays available. The selected person remains visible in the profile header and a different person can be selected there without returning to the directory. Overview shows identity, strengths, the soft / hard averages and a notice when the assessments are outdated; target-role gaps, dated assessment evidence and a collapsible guide to the 1–5 scale are in Skills, and the development plan and aspirations are in Development. There is no separate insights switch.
 5. In **Department view**, filter by department or role and select a person through either the matrix or the adjacent list. On first entry the role filter is preset to the selected person's role, since skill definitions and weights are comparable within a role; choosing a different filter is respected afterwards, and with **All roles** a highlighted notice and a role colour legend are shown. The selected person's scores are shown beside the matrix; open the profile for details. The department view has its own department and role filters. When different departments use different skill definitions or weights, their averages are not directly comparable.
 6. In **Data**, open `outputs/sample-data/TalentFlow-sample-data.xlsx`, save it and use `Convert-Excel.bat` on Windows or `python3 scripts/excel_to_csv.py workbook.xlsx` to generate a CSV, then import it. Alternatively export the `Data` sheet as CSV UTF-8 directly from Excel. The app never writes back to the workbook.
 
@@ -90,6 +90,10 @@ The import supports comma- or semicolon-separated CSV, quoted fields, UTF-8 and 
 ### Radar and strengths
 
 The radar plots the selected person's soft skills on a 1–5 scale, with initial and current values. The nearby list is the precise numeric reference. Main-view strengths are the three soft skills with the highest current score. The three main-view suggestions are attached to the lowest current soft-skill scores; they are configured text from the data, not AI-generated recommendations.
+
+### Score scale
+
+The interface shows illustrative descriptors for each level: 1 Basic (needs continuous supervision), 2 Developing (simple tasks with frequent support), 3 Independent (works independently in normal conditions), 4 Advanced (handles unusual situations and helps colleagues), 5 Reference (a reference point who passes the skill on). They are examples to make scores comparable between assessors; the real descriptors must be defined and validated with HR and production managers, and may differ by skill.
 
 ### Talent matrix
 

@@ -171,7 +171,7 @@
 /* Review pass 3: sortable directory, role colours, clearer team view. */
 .directory-header,.directory-row{grid-template-columns:minmax(200px,1.4fr) minmax(130px,1fr) minmax(100px,.8fr) 96px 24px}
 .directory-scores{color:var(--accent);font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
-.directory-filters .filters{grid-template-columns:1.4fr 1fr .8fr}
+.directory-filters .filters{grid-template-columns:1.2fr 1fr}
 .team-guidance.is-warning{background:#fff4e5;border-left:3px solid #d79a58;padding:9px 12px;border-radius:6px;color:#6b4a1f}
 [data-theme="dark"] .team-guidance.is-warning{background:#3a2f22;color:#f1d4a8}
 .point.role-0{background:#0072b2}.point.role-1{background:#d55e00}.point.role-2{background:#009e73}.point.role-3{background:#cc79a7}.point.role-4{background:#e69f00}.point.role-5{background:#56b4e9}
@@ -191,3 +191,12 @@
 .filters select,.team-toolbar select,.profile-select select,#history-skill{appearance:none;-webkit-appearance:none;padding-right:30px!important;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%)!important;background-position:calc(100% - 16px) 50%,calc(100% - 12px) 50%!important;background-size:4px 4px!important;background-repeat:no-repeat!important}
 @media(max-width:680px){.directory-scores{grid-column:1;padding-left:47px}.directory-filters .filters{grid-template-columns:1fr}}
 .matrix-footnote{margin:auto 0 0;padding-top:14px;font-size:12px;color:var(--muted);line-height:1.45}
+
+.stale-note{margin:0 0 12px;padding:9px 12px;border-left:3px solid #d79a58;border-radius:6px;background:#fff4e5;color:#6b4a1f;font-size:12px}
+[data-theme="dark"] .stale-note{background:#3a2f22;color:#f1d4a8}
+.scale-help{margin-top:14px;font-size:12px;color:var(--muted)}
+.scale-help summary{cursor:pointer;display:inline-block;border:1px solid var(--line);border-radius:7px;padding:6px 10px;color:var(--accent);font-weight:700;background:var(--card)}
+.scale-help dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 14px;margin:12px 0 8px}
+.scale-help dt{font-weight:700;color:var(--ink)}
+.scale-help dd{margin:0}
+.scale-help p{margin:0;font-style:italic}
