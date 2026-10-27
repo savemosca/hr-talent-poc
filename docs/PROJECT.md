@@ -35,14 +35,22 @@ The app supports Italian and English. On first use it chooses a supported langua
 
 - `index.html`: semantic structure, controls and both language indicators.
 - `style.css`: responsive layout, brand styling, light/dark themes and motion settings.
-- `app.js`: fictional sample generator, CSV parsing and validation, calculations, UI rendering, translation and browser storage.
+- `js/`: the application code, as plain scripts loaded in the order listed in `index.html` (not ES modules, which browsers refuse to load from `file://`). All scripts share one global scope, as before.
+  - `sample-data.js`: fictional sample dataset, CSV headers and `sampleRows()`.
+  - `csv.js`: CSV encoding (spreadsheet formula characters are neutralised), parsing and validation.
+  - `utils.js`: date helpers, the stale-assessment rule, weighted average and HTML escaping.
+  - `portraits.js`, `radar.js`: synthetic portrait sprites and the soft-skill radar.
+  - `i18n.js`: Italian-to-English translation tables and language detection.
+  - `state.js`: application state, theme, photo preference, language switching and storage.
+  - `render.js`: rendering of the people list, profile, team view, matrix, matrix table and details.
+  - `app.js`: event wiring and start-up.
 - `outputs/sample-data/TalentFlow-sample-data.xlsx`: fictional editable source workbook and Italian/English instructions.
 - `scripts/excel_to_csv.py` and `Convert-Excel.bat`: optional local converter from a saved `.xlsx` workbook to a validated dashboard CSV; Python 3 is required for conversion, but not to run the web dashboard.
 - `tests/dashboard.test.cjs` and `tests/test_excel_to_csv.py`: tests of data parsing, calculations, conversion, filters, localization, storage and optional insights.
 - `docs/BRAND.md`: working brand direction.
 - `README.md`: concise setup, usage, schema and limitations.
 
-Run `node tests/dashboard.test.cjs` from the project directory. The app itself has no build step, backend, external JavaScript library, network dependency or telemetry. The optional converter uses only Python's standard library, works offline, reads cached Excel formula results and does not edit the workbook. It is currently opened as a local file. Automated tests exercise application logic with a simulated DOM; they do not replace accessibility, responsive or multi-browser testing.
+Run `node tests/dashboard.test.cjs` from the project directory; it loads the scripts in the order given by `index.html`. Besides logic, it checks that every visible static string in `index.html` has an English translation (brand names and text set from code are listed as exceptions in the test), so a forgotten translation fails the test. `.prettierrc.json` holds the formatting settings; JavaScript and CSS were formatted with Prettier (`npx prettier --write style.css js/*.js`), which is a development convenience and not needed to run the app. The app itself has no build step, backend, external JavaScript library, network dependency or telemetry. The optional converter uses only Python's standard library, works offline, reads cached Excel formula results and does not edit the workbook. It is currently opened as a local file. Automated tests exercise application logic with a simulated DOM; they do not replace accessibility, responsive or multi-browser testing.
 
 ## Fictional reference dataset
 
@@ -118,9 +126,9 @@ The demo uses illustrative 2023, 2024 and 2026 records. The current model stores
 
 ## Local persistence and privacy
 
-Language and theme are stored as browser preferences in `localStorage`. The imported CSV and view state (selected person, current view, profile section, search and department filters) are stored in the current tab's `sessionStorage`, so refresh can restore them. Browser behavior such as session restoration or copied tabs may retain or duplicate session data. If session storage is unavailable or full, the app warns that imported data will not survive refresh. The app does not encrypt browser storage or provide a per-user login. It does not send the data to a server, but device access, browser profiles, backups and synchronization remain outside its control.
+Language, theme and the photo preference are stored as browser preferences in `localStorage`. The imported CSV and view state (selected person, current view, profile section, search and department filters) are stored in the current tab's `sessionStorage`, so refresh can restore them. Browser behavior such as session restoration or copied tabs may retain or duplicate session data. If session storage is unavailable or full, the app warns that imported data will not survive refresh. The app does not encrypt browser storage or provide a per-user login. It does not send the data to a server, but device access, browser profiles, backups and synchronization remain outside its control.
 
-The 50 fictional sample profiles use locally bundled synthetic portrait art in two sprite images. These illustrations are not identity photographs and are not linked to real workers.
+The **Show photos** option in People hides portraits everywhere and shows initials instead. The note next to it explains why: photos can influence how scores are read, so they are best hidden in discussions about growth and promotion. Portraits are only shown for the sample data; imported data always uses initials. The 50 fictional sample profiles use locally bundled synthetic portrait art in two sprite images. These illustrations are not identity photographs and are not linked to real workers.
 
 Do not commit real employee data. `.gitignore` excludes ordinary Excel and CSV files while explicitly allowing the fictional example workbook. The sample workbook is the only tracked Excel file intended by the project. Use of real HR data requires HR, IT and privacy review and an appropriate approved operating model.
 

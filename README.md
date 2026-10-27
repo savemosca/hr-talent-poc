@@ -6,7 +6,7 @@ The skill radar, bars and selected matrix point animate when a different person 
 
 The theme button switches between light and dark appearance. The selected theme is saved in browser storage; when no preference has been saved, the application uses the device setting. No employee data is stored there.
 
-The initial interface language follows the browser language (Italian or English; English fallback). A manually selected language is saved in browser local storage. The selector also translates the built-in sample profiles. Imported text remains in its original language and is not automatically translated. Names or text entered by users are not sent anywhere.
+**Show photos** in People hides all portraits and shows initials; it is meant for discussions about growth and promotion, where photos can influence how scores are read. The matrix can be used with the keyboard (arrow keys move between dots, Enter selects) and has a **Table view** with the same data. The initial interface language follows the browser language (Italian or English; English fallback). A manually selected language is saved in browser local storage. The selector also translates the built-in sample profiles. Imported text remains in its original language and is not automatically translated. Names or text entered by users are not sent anywhere.
 
 For the full product decisions, architecture, data model, calculations and production gaps, see [project documentation](docs/PROJECT.md).
 
@@ -66,10 +66,10 @@ Run `python3 -m unittest discover -s tests -p 'test_excel_to_csv.py' -v` to test
 
 ## Tests
 
-Run `node tests/dashboard.test.cjs` to check import validation, scoring, filtering, empty states and language switching.
+Run `node tests/dashboard.test.cjs` to check import validation, scoring, filtering, empty states, language switching, spreadsheet-formula neutralisation in exported CSV, matrix areas, stale assessments and that every visible string has an English translation.
 
 ## Privacy and limitations
 
-The application has no external libraries, cloud services, cookies or telemetry. Imported data is not transmitted to a server by the application. The imported CSV is stored in browser session storage, which is not encrypted by this application. Language and theme preferences are stored in local storage; view state is stored in session storage. File access, local storage, backups, device cloud synchronization, and lawful use remain subject to company policies. Never commit real employee data. This is a demonstration, not a production HR system: it has no authentication, encryption, access control, audit trail or shared editing. Dated history is imported as supplied rather than collected through an assessment workflow. Consult HR, IT and privacy teams before using actual employee data.
+The application has no external libraries, cloud services, cookies or telemetry. Imported data is not transmitted to a server by the application. The imported CSV is stored in browser session storage, which is not encrypted by this application. Language, theme and photo-visibility preferences are stored in local storage; view state is stored in session storage. File access, local storage, backups, device cloud synchronization, and lawful use remain subject to company policies. Never commit real employee data. This is a demonstration, not a production HR system: it has no authentication, encryption, access control, audit trail or shared editing. Dated history is imported as supplied rather than collected through an assessment workflow. Consult HR, IT and privacy teams before using actual employee data.
 
 Possible next steps include yearly history, consistent department-level weight definitions, role filters, assessment evidence, access controls, secure storage and direct Excel import.

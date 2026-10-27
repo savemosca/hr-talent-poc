@@ -2,6 +2,9 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
+// Scripts load in the order of index.html; they share one global scope, as in the browser.
+const scriptFiles = [...fs.readFileSync('index.html','utf8').matchAll(/<script src="([^"]+)"><\/script>/g)].map(match => match[1]);
+const appSource = scriptFiles.map(file => fs.readFileSync(file,'utf8')).join('\n');
 const elements = {};
 const labels = [{nodeValue:'SOFT SKILL PIÙ ALTE'}, {nodeValue:'SOFT SKILL →'}];
 const document = {
@@ -13,7 +16,7 @@ const document = {
 };
 const context = {document, navigator:{languages:['it-IT']}, NodeFilter:{SHOW_TEXT:4}, Blob, URL, setTimeout};
 vm.createContext(context);
-vm.runInContext(fs.readFileSync('app.js','utf8'),context);
+for(const file of scriptFiles) vm.runInContext(fs.readFileSync(file,'utf8'),context,{filename:file});
 vm.runInContext(`
   const parsed=loadData(parseCSV(csvEncode(sampleRows())));
   if(parsed.length!==50 || new Set(parsed.map(p=>p.id)).size!==50) throw Error('Expected 50 unique profiles');
@@ -97,12 +100,38 @@ assert.equal(elements.role.textContent,'Industrial welder');
 assert.ok(!elements.radar.innerHTML.includes('NaN'));
 assert.ok(elements.radar.innerHTML.includes('dominant-baseline="middle"'));
 assert.ok(elements['hard-list'].innerHTML.includes('Weight'));
+
+// Spreadsheet programs run cells that start with =, +, - or @ as formulas: text must be neutralised, numbers left alone.
+assert.equal(vm.runInContext(`csvCell('=HYPERLINK("x")')`,context),`"'=HYPERLINK(""x"")"`);
+assert.equal(vm.runInContext(`csvCell('+1')`,context),`"'+1"`);
+assert.equal(vm.runInContext(`csvCell(-1)`,context),'"-1"');
+assert.equal(vm.runInContext(`csvCell('Rossi')`,context),'"Rossi"');
+// The matrix table names the same areas as the chart, using the 3.5 threshold on both axes.
+vm.runInContext('language="it"',context);
+assert.equal(vm.runInContext(`matrixArea(3.5,3.5)`,context),'Area da approfondire');
+assert.equal(vm.runInContext(`matrixArea(3.4,4)`,context),'Da sviluppare');
+assert.equal(vm.runInContext(`matrixArea(4,3.4)`,context),'Soft solide');
+assert.equal(vm.runInContext(`matrixArea(2,2)`,context),'Base da costruire');
+vm.runInContext('language="en"',context);
+assert.equal(vm.runInContext(`matrixArea(2,2)`,context),'Build the foundation');
+// Assessments older than twelve months are flagged.
+assert.equal(vm.runInContext(`isStale('2000-01-01')`,context),true);
+assert.equal(vm.runInContext(`isStale(new Date().toISOString().slice(0,10))`,context),false);
+// Every visible static string needs an English translation, except brand names and text set from code.
+{
+  const html = fs.readFileSync('index.html','utf8').replace(/<script[\s\S]*?<\/script>/g,'').replace(/<svg[\s\S]*?<\/svg>/g,'');
+  const texts = [...new Set([...html.matchAll(/>([^<>]+)</g)].map(m => m[1].replace(/&nbsp;/g,' ').trim()).filter(x => /\p{L}{2}/u.test(x)))];
+  const allowed = new Set(['TalentFlow | POC HR','talent','flow','PEOPLE DEVELOPMENT PLATFORM','Tema scuro','LINGUA / LANGUAGE','Italiano','English','SOFT / HARD','TALENTFLOW','Stai visualizzando dati dimostrativi interamente fittizi. Importa un CSV per esplorare i tuoi dati in locale.']);
+  const keys = Object.keys(vm.runInContext('translations',context)).sort((a,b) => b.length - a.length);
+  const missing = texts.filter(text => !allowed.has(text) && /\p{L}{2}/u.test(keys.reduce((rest,key) => rest.split(key).join(''), text)));
+  assert.deepEqual(missing, [], 'Static strings without an English translation: ' + missing.join(' | '));
+}
 console.log('PASS: import validation, scoring, search, empty state, language and skill detail');
 
 function storage() {const values=new Map();return {getItem:k=>values.has(k)?values.get(k):null,setItem:(k,v)=>values.set(k,String(v)),removeItem:k=>values.delete(k)};}
 function boot(localStorage,sessionStorage,languages){
  const nodes={};const document={body:{},documentElement:{dataset:{}},createTreeWalker(){return{nextNode(){return false}}},querySelectorAll(){return[]},getElementById(id){return nodes[id]??={innerHTML:'',textContent:'',value:'',hidden:false,disabled:false,classList:{toggle(){}},setAttribute(){},toggleAttribute(name,enabled){this[name]=enabled},querySelectorAll(){return[]},focus(){},click(){}}},createElement(){return{click(){}}}};
- const context={document,navigator:{languages},localStorage,sessionStorage,NodeFilter:{SHOW_TEXT:4},Blob,URL,setTimeout};vm.createContext(context);vm.runInContext(fs.readFileSync('app.js','utf8'),context);return {nodes,context,document};
+ const context={document,navigator:{languages},localStorage,sessionStorage,NodeFilter:{SHOW_TEXT:4},Blob,URL,setTimeout};vm.createContext(context);for(const file of scriptFiles) vm.runInContext(fs.readFileSync(file,'utf8'),context,{filename:file});return {nodes,context,document};
 }
 (async()=>{
  const local=storage(),session=storage();
