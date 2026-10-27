@@ -12,7 +12,7 @@ For the full product decisions, architecture, data model, calculations and produ
 
 ## Getting started
 
-1. Open `index.html`. In **People**, search by name or ID, filter by department and open a person. In the individual profile, switch between **Overview**, **Skills** and **Development**. Enable **Show insights** to reveal target-role comparison and history under Skills, and the development plan and aspirations under Development. The choice is remembered on the device.
+1. Open `index.html`. In **People**, search by name or ID, filter by department and open a person. In the individual profile, switch between **Overview**, **Skills** and **Development**. Target-role gaps and dated evidence appear under Skills; the development plan and aspirations appear under Development.
 2. Use **Department view** to filter by department or role, select a person from the matrix or adjacent list, and open the selected profile. The matrix reflects both filters. Expand the hard-skill breakdown to inspect scores and weights.
 3. Under **Data**, open the [example workbook](outputs/sample-data/TalentFlow-sample-data.xlsx), or download the sample CSV. Edit the `Data` sheet and save a copy as CSV UTF-8. Select **Import CSV**. The application does not read `.xlsx` directly.
 4. Imported CSV content, the selected person, navigation, search and department filters are kept in the browser’s session storage for the current tab, so they survive a refresh. Closing the tab normally ends the session; browser session restore may retain it. The original file is never modified. If browser storage is unavailable or full, the app warns that imported data will be lost on refresh.
