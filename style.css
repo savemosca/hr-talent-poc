@@ -142,3 +142,7 @@
 
 /* Separate the profile insight cards from the assessment and career cards above. */
 #skills-insights,#development-insights{margin-top:18px}
+.portrait--demo,.directory-avatar--demo{background-image:url('assets/portraits/demo-portrait-sprite.png');background-size:1000% 500%;background-position:var(--portrait-x) var(--portrait-y);background-repeat:no-repeat;color:transparent}
+.directory-avatar--demo{border:1px solid var(--line)}
+.portrait--demo-extra,.directory-avatar--demo-extra{background-image:url('assets/portraits/additional-women.png');background-size:200% 100%;background-position:var(--portrait-extra-position,0%) 0%;background-repeat:no-repeat;color:transparent}
+.directory-avatar--demo-extra{border:1px solid var(--line)}

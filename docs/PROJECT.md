@@ -15,7 +15,7 @@ The conversation established these product decisions:
 3. Present a person profile, soft-skill assessment, career path and talent matrix. Let users select a person and compare current with initial scores.
 4. Include Italian and English, light and dark themes, search, filtering, fictional examples and a clear visual identity.
 5. Use a limited number of illustrative manufacturing roles with multiple people in each, so a department filter can show comparable examples.
-6. Treat the matrix as a discussion aid, then add an optional HR insights view covering target-role gaps, a development plan, aspirations and dated evidence.
+6. Treat the matrix as a discussion aid, and show target-role gaps, development actions, aspirations and dated evidence directly in the relevant profile tabs.
 
 The visual identity uses a blue foundation with a restrained warm accent. Its working principles and colors are described in [BRAND.md](BRAND.md). The first visual references informed the original scope, not the current design.
 
@@ -102,7 +102,7 @@ The horizontal axis is soft-skill average; the vertical axis is hard-skill avera
 
 The main-view matrix indicator is derived only from whether both averages reach 3.5. Its two-decimal display is rounded, but the comparison uses unrounded values. In particular, it is not a separate measurement of potential or a promotion decision. Specific requirements such as safety must be considered on their own merits rather than assumed to be satisfied by an average.
 
-### Optional HR insights
+### Role gaps and development details
 
 When enabled and a person is visible:
 
@@ -115,7 +115,9 @@ The demo uses illustrative 2023, 2024 and 2026 records. The current model stores
 
 ## Local persistence and privacy
 
-Language, theme and visibility of HR insights are stored as browser preferences in `localStorage`. The imported CSV and view state (selected person, current view, profile section, search and department filters) are stored in the current tab's `sessionStorage`, so refresh can restore them. Browser behavior such as session restoration or copied tabs may retain or duplicate session data. If session storage is unavailable or full, the app warns that imported data will not survive refresh. The app does not encrypt browser storage or provide a per-user login. It does not send the data to a server, but device access, browser profiles, backups and synchronization remain outside its control.
+Language and theme are stored as browser preferences in `localStorage`. The imported CSV and view state (selected person, current view, profile section, search and department filters) are stored in the current tab's `sessionStorage`, so refresh can restore them. Browser behavior such as session restoration or copied tabs may retain or duplicate session data. If session storage is unavailable or full, the app warns that imported data will not survive refresh. The app does not encrypt browser storage or provide a per-user login. It does not send the data to a server, but device access, browser profiles, backups and synchronization remain outside its control.
+
+The 50 fictional sample profiles use locally bundled synthetic portrait art in two sprite images. These illustrations are not identity photographs and are not linked to real workers.
 
 Do not commit real employee data. `.gitignore` excludes ordinary Excel and CSV files while explicitly allowing the fictional example workbook. The sample workbook is the only tracked Excel file intended by the project. Use of real HR data requires HR, IT and privacy review and an appropriate approved operating model.
 
