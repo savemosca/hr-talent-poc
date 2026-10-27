@@ -167,3 +167,26 @@
 #view-profile .view-heading .button{min-height:32px;padding:5px 11px;font-size:12px;border-color:transparent;background:transparent}
 #view-profile .view-heading .button:hover{background:var(--soft)}
 .topbar-actions .language-label,.topbar-actions .language-flag{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);border:0;box-shadow:none}
+
+/* Review pass 3: sortable directory, role colours, clearer team view. */
+.directory-header,.directory-row{grid-template-columns:minmax(200px,1.4fr) minmax(130px,1fr) minmax(100px,.8fr) 96px 24px}
+.directory-scores{color:var(--accent);font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.directory-filters .filters{grid-template-columns:1.4fr 1fr .8fr}
+.team-guidance.is-warning{background:#fff4e5;border-left:3px solid #d79a58;padding:9px 12px;border-radius:6px;color:#6b4a1f}
+[data-theme="dark"] .team-guidance.is-warning{background:#3a2f22;color:#f1d4a8}
+.point.role-0{background:#0072b2}.point.role-1{background:#d55e00}.point.role-2{background:#009e73}.point.role-3{background:#cc79a7}.point.role-4{background:#e69f00}.point.role-5{background:#56b4e9}
+.point.selected{background:var(--ink)}
+.matrix-legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--muted);margin:10px 0 0}
+.matrix-legend:empty{display:none}
+.matrix-legend span{display:inline-flex;align-items:center;gap:6px}
+.matrix-legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.matrix-legend i.role-0{background:#0072b2}.matrix-legend i.role-1{background:#d55e00}.matrix-legend i.role-2{background:#009e73}.matrix-legend i.role-3{background:#cc79a7}.matrix-legend i.role-4{background:#e69f00}.matrix-legend i.role-5{background:#56b4e9}
+.matrix-layout{grid-template-columns:minmax(0,1.25fr) minmax(135px,.7fr)}
+.matrix-wrap~.matrix-legend,.matrix-legend{grid-column:1/-1}
+.quadrant-label:nth-child(2),.quadrant-label:nth-child(4){text-align:left}
+.team-layout{align-items:stretch}
+.matrix-card{display:flex;flex-direction:column}
+.hard-details summary{display:inline-block;border:1px solid var(--line);border-radius:7px;padding:6px 10px;background:var(--card)}
+.hard-details summary:hover{background:var(--soft)}
+.filters select,.team-toolbar select,.profile-select select,#history-skill{appearance:none;-webkit-appearance:none;padding-right:30px!important;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%)!important;background-position:calc(100% - 16px) 50%,calc(100% - 12px) 50%!important;background-size:4px 4px!important;background-repeat:no-repeat!important}
+@media(max-width:680px){.directory-scores{grid-column:1;padding-left:47px}.directory-filters .filters{grid-template-columns:1fr}}
