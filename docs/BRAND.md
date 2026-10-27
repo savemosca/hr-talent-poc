@@ -11,7 +11,7 @@ TalentFlow helps HR and production managers have better-informed conversations a
 - **Name:** TalentFlow, written as one word, capital T and F in prose.
 - **Wordmark:** lowercase `talentflow` in the interface, paired with a compact `t.` symbol. The symbol is built with text and CSS and does not require an external image.
 - **Voice:** direct, respectful, supportive and specific. Describe observations and development actions; avoid labels that imply a final hiring or promotion decision.
-- **Typography:** system sans-serif, prioritizing legibility and reliable offline operation. Headings use a stronger weight and restrained spacing; body text uses normal sentence case.
+- **Typography:** system sans-serif, prioritizing legibility and reliable offline operation. Headings use a stronger weight and restrained spacing; body text uses normal sentence case. Informational text is at least 10 px (most at 11 px or more). Contrast has not been measured formally; see the validation note below.
 
 ## Color roles
 
